@@ -11,6 +11,17 @@ Aaron.then((result)=>{
     console.log(result);
 })
  */
+const DOMSelectors = {
+  dataid: document.querySelector("h1").textContent,
+  container :document.querySelector("container"),
+}
+function playerCard(card) {
+  cardHTML= `
+  Name: ${data.name}
+  Start Time: ${startTime}
+  End Time: ${endTime}
+  `
+}
 //REST API
 const URL = "https://data.ninjakiwi.com/btd6/races";
 async function getData(URL) {
@@ -23,10 +34,21 @@ async function getData(URL) {
     console.log(response);
     const data = await response.json();
     console.log(data);
-    document.querySelector("h1").textContent = data.id;
-    document.querySelector("h2").textContent = data.metadata;
+    data.body.forEach(data => {
+      console.log(data)
+      console.log(data.id)
+      console.log(data.end)
+      console.log(data.id)
+  /* const startTime = new Date(data.start)
+  const endTime = new Date(data.end)
+  data.body.forEach((data) => data.container.insertAdjacentHTML("beforeend", cardHTML)); */
+    });
   } catch (error) {
     document.querySelector("h1").textContent = `Sorry, I cannot find ${text}`;
   }
 }
 getData(URL);
+
+
+
+
