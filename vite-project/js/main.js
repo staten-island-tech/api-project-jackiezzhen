@@ -1,3 +1,5 @@
+import { playerCard } from "./jsCards.js";
+
 /* function greet(name){
     const greetPromise= new Promise(function(resolve, reject){
         resolve(`Hello ${name}`);
@@ -12,22 +14,9 @@ Aaron.then((result)=>{
 })
  */
 const DOMSelectors = {
-  dataid: document.querySelector("h1").textContent,
   container :document.querySelector("container"),
 }
 
-function playerCard(card) {
-  const startTime = new Date(card.start);
-  const endTime = new Date(card.end);
-  const cardHTML= `
-  <h1>Name: ${card.name}</h1>
-  <p>Start Time: ${startTime}</p>
-  <p>End Time: ${endTime}</p>
-  <p>Players Participated: ${card.totalScores}</p>
-  <link>Leaderboard: ${card.leaderboard}</link>
-  `
-  document.querySelector(".container").insertAdjacentHTML("beforeend", cardHTML);
-}
 //REST API
 const URL = "https://data.ninjakiwi.com/btd6/races";
 async function getData(URL) {
@@ -46,7 +35,7 @@ async function getData(URL) {
       console.log(data.end);
     });
     data.body.forEach((data) => {
-      playerCard(data)
+      playerCard(data);
     });
   } catch (error) {
     document.querySelector("h1").textContent = "whoops";

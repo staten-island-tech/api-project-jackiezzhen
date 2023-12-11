@@ -1,0 +1,60 @@
+html, body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+}
+.card {
+  padding: 10px;
+  margin: 10px;
+  border: solid white 3px;
+  max-width: 40vh;
+  height: auto;
+  word-wrap: break-word;
+}
+
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.search-container {
+  text-align: center;
+  margin: 2vh;
+}
+
+.search-label {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  color: white;
+}
+
+.search-input {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.search-button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
