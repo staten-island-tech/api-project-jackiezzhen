@@ -17,51 +17,68 @@ html, body {
 
 .title {
   display: flex;
-  margin: 0;
+  margin: 3vh;
   justify-content: center;
 }
-
+.allContainers {
+}
 .raceContainer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   gap: 10vh;
+  margin: 5vh;
 }
 
-.card {
+.raceCard {
+  display: flex;
+  flex-direction: column;
   padding: 1vh;
   border: solid white 3px;
   height: auto;
   word-wrap: break-word;
   flex-basis: 30%;
 }
+
+.leaderboardContainer{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10vh;
+  margin:1vh;
+}
+.leaderboardCard{
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 1vh;
+  border: solid white 3px;
+  height: auto;
+  word-wrap: break-word;
+  flex-basis: 20%;
+  max-width:20vh;
+  
+}
+
+.playerCard{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10vh;
+  }
+
 button{
-  color: black;
-}
-
-.search-container {
-  text-align: center;
-  margin: 2vh;
-}
-
-.search-label {
-  font-size: 1.5rem;
-  margin-right: 10px;
-  color: white;
-}
-
-.search-input {
-  padding: 8px;
-  font-size: 1rem;
-}
-
-.search-button {
-  padding: 8px 12px;
-  font-size: 1rem;
+  color: cyan;
+  background-color:#242424;
+  border: solid white 0.1vh;
+  border-radius: 0.5vh;
   cursor: pointer;
-  background-color: #4caf50;
-  color: white;
-  border: none;
+}
+.leaderboard, .profile {
+  display:flex;
+  justify-content: center;
 }
 

@@ -39,11 +39,12 @@ async function getData(URL) {
         if (leaderboardResponse.status !== 200) {
           throw new Error(leaderboardResponse.statusText);
         }
+        console.log(leaderboardResponse);
         const leaderboardData = await leaderboardResponse.json();
         console.log(leaderboardData);
-        const displayName = leaderboardData.body.displayName;
-        displayName.forEach((data) => {
-          console.log(data);})
+        leaderboardData.body.forEach((data) => {
+          console.log(data);
+          leaderboardCard(data)})
       } catch (leaderboardError) {
         DOMSelectors.error = "whoops";
       }

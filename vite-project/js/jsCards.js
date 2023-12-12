@@ -2,7 +2,7 @@ function raceCard(card) {
   const startTime = new Date(card.start);
   const endTime = new Date(card.end);
   const cardHTML = `
-    <div class=card>
+    <div class=raceCard>
     <h1>${card.name}</h1>
     <p>Start Time: ${startTime}</p>
     <p>End Time: ${endTime}</p>
@@ -15,11 +15,12 @@ function raceCard(card) {
     .insertAdjacentHTML("beforeend", cardHTML);
 
   const leaderboardButton = document.querySelector(".leaderboard");
+  leaderboardButton.addEventListener("click", leaderboardCard);
 }
 
 function leaderboardCard(card) {
   const cardHTML = `
-    <div class="card">
+    <div class="leaderboardCard">
     <h1>${card.displayName}</h1>
     <p>Rank: ${card.score}</p>
     <button class= profile>Profile</button>
@@ -33,7 +34,7 @@ function leaderboardCard(card) {
 
 function playerCard(card) {
   const cardHTML = `
-      <div class="card">
+      <div class="playerCard">
         <h1>${card.displayName}</h1>
         <p>Rank: ${card.score}</p>
         <p>Veteran Rank: ${card.veteranRank}</p>
