@@ -1,4 +1,4 @@
-import { playerCard } from "./jsCards";
+import { raceCard, leaderboardCard, playerCard } from "./jsCards.js";
 /* function greet(name){
     const greetPromise= new Promise(function(resolve, reject){
         resolve(`Hello ${name}`);
@@ -13,13 +13,10 @@ Aaron.then((result)=>{
 })
  */
 const DOMSelectors = {
-  dataid: document.querySelector("h1").textContent,
-  container :document.querySelector("container"),
-}
-
+  error: document.querySelector(".title").textContent,
+};
 // Race API
 const raceURL = "https://data.ninjakiwi.com/btd6/races";
-/* const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${data.id}/leaderboard` */
 
 async function getData(URL) {
   try {
@@ -32,15 +29,30 @@ async function getData(URL) {
     console.log(data);
     data.body.forEach((data) => {
       console.log(data);
-      playerCard(data)
+      raceCard(data);
     });
+    data.body.forEach(async (race) => {
+      const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${race.id}/leaderboard`;
+
+      try {
+        const leaderboardResponse = await fetch(leaderboardURL);
+        if (leaderboardResponse.status !== 200) {
+          throw new Error(leaderboardResponse.statusText);
+        }
+        const leaderboardData = await leaderboardResponse.json();
+        console.log(leaderboardData);
+        const displayName = leaderboardData.body.displayName;
+        displayName.forEach((data) => {
+          console.log(data);})
+      } catch (leaderboardError) {
+        DOMSelectors.error = "whoops";
+      }
+    });
+
+    //Display Error
   } catch (error) {
-    document.querySelector("h1").textContent = "whoops";
+    DOMSelectors.error = "whoops";
   }
 }
 
 getData(raceURL);
-
-
-
-
