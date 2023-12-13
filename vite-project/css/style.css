@@ -44,22 +44,34 @@ html, body {
 .leaderboardContainer{
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: row;  
   justify-content: center;
-  gap: 10vh;
-  margin:1vh;
+  gap: 1vw;
+  margin:2vw;
 }
 .leaderboardCard{
   display:flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  justify-content: space-around;
   padding: 1vh;
   border: solid white 3px;
-  height: auto;
+  height: 50%;
+  place-items: center;
   word-wrap: break-word;
-  flex-basis: 20%;
-  max-width:20vh;
-  
+  width:60vw;
+  height: 2vw;
+  object-fit: contain;
+}
+.profile img{
+background-color:#242424;
+border: solid #242424 3px;
+height: 2vw;
+width: 2vw;
+object-fit:contain;
+right: 10vw;
+}
+:active.profile img{
+  width: 1vw;
+  height: auto;
 }
 
 .playerCard{
@@ -71,14 +83,7 @@ html, body {
   }
 
 button{
-  color: cyan;
-  background-color:#242424;
-  border: solid white 0.1vh;
-  border-radius: 0.5vh;
   cursor: pointer;
 }
-.leaderboard, .profile {
-  display:flex;
-  justify-content: center;
-}
+
 

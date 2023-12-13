@@ -23,7 +23,7 @@ function leaderboardCard(card) {
     <div class="leaderboardCard">
     <h1>${card.displayName}</h1>
     <p>Rank: ${card.score}</p>
-    <button class= profile>Profile</button>
+    <button class= profile><img src="./public/profile.webp"</button>
     </div>
   `;
 
