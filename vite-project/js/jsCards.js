@@ -7,7 +7,7 @@ function raceCard(card) {
     <p>Start Time: ${startTime}</p>
     <p>End Time: ${endTime}</p>
     <p>Players Participated: ${card.totalScores}</p>
-    <button class= leaderboard>Leaderboard</button>
+    <button class="leaderboard">Leaderboard</button>
     </div>
     `;
   document
@@ -22,7 +22,7 @@ function leaderboardCard(card) {
   const cardHTML = `
     <div class="leaderboardCard">
     <h1>${card.displayName}</h1>
-    <p>Rank: ${card.score}</p>
+    <p>Score: ${card.score}</p>
     <button class= profile><img src="./public/profile.webp"</button>
     </div>
   `;

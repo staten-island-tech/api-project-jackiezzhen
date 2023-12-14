@@ -49,7 +49,24 @@ async function getData(URL) {
         DOMSelectors.error = "whoops";
       }
     });
+    data.body.forEach(async (race) => {
+      const metadataURL = `https://data.ninjakiwi.com/btd6/races/${race.id}/metadata`;
 
+      try {
+        const leaderboardResponse = await fetch(leaderboardURL);
+        if (leaderboardResponse.status !== 200) {
+          throw new Error(leaderboardResponse.statusText);
+        }
+        console.log(leaderboardResponse);
+        const metadataData = await leaderboardResponse.json();
+        console.log(metadataData);
+        metadataData.body.forEach((data) => {
+          console.log(data);
+          metadataCard(data)})
+      } catch (leaderboardError) {
+        DOMSelectors.error = "whoops";
+      }
+    });
     //Display Error
   } catch (error) {
     DOMSelectors.error = "whoops";
