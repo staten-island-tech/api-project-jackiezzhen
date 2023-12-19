@@ -18,10 +18,36 @@ function raceCard(card) {
   document
     .querySelector(".raceContainer")
     .insertAdjacentHTML("beforeend", cardHTML);
-
+   const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${card.id}/leaderboard`;
+   console.log(leaderboardURL)
   const leaderboardButton = document.querySelectorAll(".leaderboard");
   leaderboardButton.forEach((button) => {
   button.addEventListener("click", callLeaderboard);});
+  async function callLeaderboard(race) {
+    const leaderboardContainer = document.querySelector(".leaderboardContainer")
+    try {
+      const leaderboardResponse = await fetch(leaderboardURL);
+      if (leaderboardResponse.status !== 200) {
+        throw new Error(leaderboardResponse.statusText);
+      }
+      console.log(leaderboardResponse);
+      const leaderboardData = await leaderboardResponse.json();
+      console.log(leaderboardData);
+      leaderboardData.body.forEach((data) => {
+        leaderboardCard(data)})
+    } catch (leaderboardError) {
+      DOMSelectors.error = "whoops";
+    }
+  };
+
+
+
+
+
+
+
+
+
 }
 
 function leaderboardCard(card) {
@@ -32,8 +58,7 @@ function leaderboardCard(card) {
     <button class= profile><img src="./public/profile.webp"</button>
     </div>
   `;
-  leaderboardContainer.innerHTML = "";
-  const leaderboardContainer = document.querySelector(".leaderboardContainer")
+  const leaderboardContainer = document.querySelector(".leaderboardContainer");
   leaderboardContainer. insertAdjacentHTML("beforeend", cardHTML);
 }
 
@@ -54,23 +79,4 @@ function playerCard(card) {
     .insertAdjacentHTML("beforeend", cardHTML);
 }
 
-async function callLeaderboard(race) {
-  console.log(race.id);
-  const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/Iced_in_loshuc60/leaderboard`;
-  try {
-    const leaderboardResponse = await fetch(leaderboardURL);
-    if (leaderboardResponse.status !== 200) {
-      throw new Error(leaderboardResponse.statusText);
-    }
-    console.log(leaderboardResponse);
-    const leaderboardData = await leaderboardResponse.json();
-    console.log(leaderboardData);
-    
-    leaderboardData.body.forEach((data) => {
-      console.log(data);
-      leaderboardCard(data)})
-  } catch (leaderboardError) {
-    DOMSelectors.error = "whoops";
-  }
-};
 export { raceCard, leaderboardCard, playerCard, DOMSelectors};
