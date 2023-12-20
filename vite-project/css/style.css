@@ -34,7 +34,7 @@ html, body {
 .raceCard {
   display: flex;
   flex-direction: column;
-  padding: 1vh;
+  padding: 1rem;
   border: solid white 3px;
   height: auto;
   word-wrap: break-word;
@@ -53,6 +53,7 @@ html, body {
   display:flex;
   justify-content: space-around;
   padding: 1vh;
+  background-color: #242424;
   border: solid white 3px;
   height: 50%;
   place-items: center;
@@ -61,13 +62,21 @@ html, body {
   height: 2vw;
   object-fit: contain;
 }
+leaderboardDisplayName{
+  justify-content: right;
+}
 .profile img{
 background-color:#242424;
-border: solid #242424 3px;
-height: 2vw;
-width: 2vw;
+border: solid #242424 4px;
+height: 2rem;
+width: 2rem;
 object-fit:contain;
-right: 10vw;
+right: 10vw
+}
+.profile{
+  border: 0;
+  background-color:#242424;
+  
 }
 :active.profile img{
   width: 1vw;
