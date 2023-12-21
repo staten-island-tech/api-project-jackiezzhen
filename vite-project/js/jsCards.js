@@ -13,19 +13,19 @@ function raceCard(card) {
     <p>End Time: ${endTime}</p>
     <p>Players Participated: ${card.totalScores}</p>
     <button class="leaderboard">Leaderboard</button>
+    <p class=hiddenID> ${card.id}</p>
     </div>
     `;
   document
     .querySelector(".raceContainer")
     .insertAdjacentHTML("beforeend", cardHTML);
-  const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${card.id}/leaderboard`;
+  const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${cardHTML}/leaderboard`;
   const leaderboardButton = document.querySelectorAll(".leaderboard");
   leaderboardButton.forEach((button) => {
-  
   button.addEventListener("click", callLeaderboard);});
+  
 
-
-  async function callLeaderboard(race) {
+  async function callLeaderboard() {
     const leaderboardContainer = document.querySelector(".leaderboardContainer")
     leaderboardContainer.innerHTML="";
     console.log(leaderboardURL);
@@ -38,7 +38,7 @@ function raceCard(card) {
       const leaderboardData = await leaderboardResponse.json();
       console.log(leaderboardData);
       leaderboardData.body.forEach((data) => {
-        leaderboardCard(data)})
+        leaderboardCard(data)});
     } catch (leaderboardError) {
       DOMSelectors.error = "whoops";
     }
@@ -48,8 +48,8 @@ function raceCard(card) {
 function leaderboardCard(card) {
   const cardHTML = `
     <div class="leaderboardCard">
-    <h1>${card.displayName}</h1>
-    <p>Score: ${card.score}</p>
+    <h1 class=leaderboardDisplayName>${card.displayName}</h1>
+    <p class = leaderboardScore>Score: ${card.score}</p>
     <button class= profile><img src="/profile.webp"</button>
     </div>
   `;
