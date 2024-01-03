@@ -26,12 +26,8 @@ function raceCard(card) {
 
   async function callLeaderboard(button) {
     const raceID = button.parentElement.querySelector(".ID").textContent;
-    const leaderboardContainer = document.querySelector(
-      ".leaderboardContainer"
-    );
-    leaderboardContainer.innerHTML = "";
+    document.querySelector(".leaderboardContainer").innerHTML = "";
     const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
-
     try {
       const leaderboardResponse = await fetch(leaderboardURL);
       if (leaderboardResponse.status !== 200) {
@@ -41,25 +37,48 @@ function raceCard(card) {
       leaderboardData.body.forEach((data) => {
         leaderboardCard(data);
       });
-      document.querySelector(".backButton").style.display = "block";
+      document.querySelector(".leaderboardBackButton").style.display = "inline-block";
     } catch (leaderboardError) {
       DOMSelectors.error = "whoops";
     }
   }
 }
+async function callPlayer(button) {
+  const raceID = button.parentElement.querySelector(".ID").textContent;
+  document.querySelector(".playerContainer").innerHTML = "";
+  const playerURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
+  try {
+    const leaderboardResponse = await fetch(leaderboardURL);
+    if (leaderboardResponse.status !== 200) {
+      throw new Error(leaderboardResponse.statusText);
+    }
+    const leaderboardData = await leaderboardResponse.json();
+    leaderboardData.body.forEach((data) => {
+      leaderboardCard(data);
+    });
+    document.querySelector(".leaderboardBackButton").style.display = "inline-block";
+  } catch (leaderboardError) {
+    DOMSelectors.error = "whoops";
+  }
+}
 
+function previous() {
+  const backButton = `
+  <button class=profile><img src="/public/profile.webp" alt="Back"></button>
+  `;
+}
 function leaderboardCard(card) {
   const cardHTML = `
     <div class="leaderboardCard">
       <h1 class=leaderboardDisplayName>${card.displayName}</h1>
       <p class=leaderboardScore>Score: ${card.score}</p>
-      <button class=profile><img src="/public/profile.webp" alt="Error"></button>
+      <p class=profileID>${card.profile}<p>
+      <button class=profile><img src="/public/profile.webp" alt="Profile"></button>
     </div>
   `;
   const leaderboardContainer = document.querySelector(".leaderboardContainer");
   leaderboardContainer.insertAdjacentHTML("beforeend", cardHTML);
 }
-
 function playerCard(card) {
   const cardHTML = `
       <div class="playerCard">
@@ -71,10 +90,8 @@ function playerCard(card) {
         <img src="${card.bannerURL}" alt="Banner">
       </div>
     `;
-
   document
     .querySelector(".playerContainer")
     .insertAdjacentHTML("beforeend", cardHTML);
 }
-
 export { raceCard, leaderboardCard, playerCard, DOMSelectors };
