@@ -2,7 +2,6 @@ const DOMSelectors = {
   error: document.querySelector(".title").textContent,
 };
 
-
 function raceCard(card) {
   const startTime = new Date(card.start);
   const endTime = new Date(card.end);
@@ -13,48 +12,52 @@ function raceCard(card) {
     <p>End Time: ${endTime}</p>
     <p>Players Participated: ${card.totalScores}</p>
     <button class="leaderboard">Leaderboard</button>
-    <p class=hiddenID> ${card.id}</p>
+    <p class=ID>${card.id}</p>
     </div>
     `;
   document
     .querySelector(".raceContainer")
     .insertAdjacentHTML("beforeend", cardHTML);
-  const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${cardHTML}/leaderboard`;
-  const leaderboardButton = document.querySelectorAll(".leaderboard");
-  leaderboardButton.forEach((button) => {
-  button.addEventListener("click", callLeaderboard);});
-  
 
-  async function callLeaderboard() {
-    const leaderboardContainer = document.querySelector(".leaderboardContainer")
-    leaderboardContainer.innerHTML="";
-    console.log(leaderboardURL);
+  const leaderboardButtons = document.querySelectorAll(".leaderboard");
+  leaderboardButtons.forEach((button) => {
+    button.addEventListener("click", () => callLeaderboard(button));
+  });
+
+  async function callLeaderboard(button) {
+    const raceID = button.parentElement.querySelector(".ID").textContent;
+    const leaderboardContainer = document.querySelector(
+      ".leaderboardContainer"
+    );
+    leaderboardContainer.innerHTML = "";
+    const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
+
     try {
       const leaderboardResponse = await fetch(leaderboardURL);
       if (leaderboardResponse.status !== 200) {
         throw new Error(leaderboardResponse.statusText);
       }
-      console.log(leaderboardResponse);
       const leaderboardData = await leaderboardResponse.json();
-      console.log(leaderboardData);
       leaderboardData.body.forEach((data) => {
-        leaderboardCard(data)});
+        leaderboardCard(data);
+      });
+      document.querySelector(".backButton").style.display = "block";
     } catch (leaderboardError) {
       DOMSelectors.error = "whoops";
     }
-  };
+  }
 }
 
 function leaderboardCard(card) {
   const cardHTML = `
     <div class="leaderboardCard">
-    <h1 class=leaderboardDisplayName>${card.displayName}</h1>
-    <p class = leaderboardScore>Score: ${card.score}</p>
-    <button class= profile><img src="/profile.webp"</button>
+      <h1 class=leaderboardDisplayName>${card.displayName}</h1>
+      <p class=leaderboardScore>Score: ${card.score}</p>
+      <button class=profile><img src="/public/profile.webp" alt="Error"></button>
     </div>
   `;
   const leaderboardContainer = document.querySelector(".leaderboardContainer");
-  leaderboardContainer. insertAdjacentHTML("beforeend", cardHTML);
+  leaderboardContainer.insertAdjacentHTML("beforeend", cardHTML);
 }
 
 function playerCard(card) {
@@ -74,4 +77,4 @@ function playerCard(card) {
     .insertAdjacentHTML("beforeend", cardHTML);
 }
 
-export { raceCard, leaderboardCard, playerCard, DOMSelectors};
+export { raceCard, leaderboardCard, playerCard, DOMSelectors };

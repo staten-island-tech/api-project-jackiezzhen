@@ -48,6 +48,11 @@ html, body {
   justify-content: center;
   gap: 1vw;
   margin:2vw;
+  z-index: 1;
+  position: absolute;
+  top: 10%;
+  background: rgba(36,36,36,0.9);
+  
 }
 .leaderboardCard{
   display:flex;
@@ -62,8 +67,11 @@ html, body {
   height: 2vw;
   object-fit: contain;
 }
-leaderboardDisplayName{
+.leaderboardDisplayName{
   justify-content: right;
+}
+.ID {
+  display: none;
 }
 .profile img{
 background-color:#242424;
