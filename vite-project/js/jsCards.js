@@ -33,8 +33,9 @@ function raceCard(card) {
       if (leaderboardResponse.status !== 200) {
         throw new Error(leaderboardResponse.statusText);
       }
-      const leaderboardData = await leaderboardResponse.json();
-      leaderboardData.body.forEach((data) => {
+      const leaderboard = await leaderboardResponse.json();
+      const leaderboardData = leaderboard.body.reverse();
+      leaderboardData.forEach((data) => {
         leaderboardCard(data);
       });
       document.querySelector(".leaderboardBackButton").style.display = "inline-block";
@@ -45,10 +46,18 @@ function raceCard(card) {
 }
 async function callPlayer(button) {
   const raceID = button.parentElement.querySelector(".ID").textContent;
-  document.querySelector(".playerContainer").innerHTML = "";
+  const leaderboardContainer = document.querySelector(".leaderboardContainer");
+  leaderboardContainer.innerHTML = ""; // Clear existing content
+
+  const backButtonHTML = `
+    <button class="profile" id="leaderboardBackButton">
+      <img src="/public/profile.webp" alt="Back">
+    </button>
+  `;
+  leaderboardContainer.insertAdjacentHTML("beforeend", backButtonHTML);
   const playerURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
   try {
-    const leaderboardResponse = await fetch(leaderboardURL);
+    const leaderboardResponse = await fetch(playerURL);
     if (leaderboardResponse.status !== 200) {
       throw new Error(leaderboardResponse.statusText);
     }
@@ -63,17 +72,20 @@ async function callPlayer(button) {
 }
 
 function previous() {
-  const backButton = `
-  <button class=profile><img src="/public/profile.webp" alt="Back"></button>
+  return `
+    <button class="profile" id="leaderboardBackButton">
+      <img src="/public/profile.webp" alt="Back">
+    </button>
   `;
 }
+
 function leaderboardCard(card) {
   const cardHTML = `
     <div class="leaderboardCard">
       <h1 class=leaderboardDisplayName>${card.displayName}</h1>
       <p class=leaderboardScore>Score: ${card.score}</p>
       <p class=profileID>${card.profile}<p>
-      <button class=profile><img src="/public/profile.webp" alt="Profile"></button>
+      <button class=profile><img src="public/profile.webp" alt="Profile"></button>
     </div>
   `;
   const leaderboardContainer = document.querySelector(".leaderboardContainer");
