@@ -1,11 +1,14 @@
-const DOMSelectors = {
-  error: document.querySelector(".title").textContent,
-};
+function api() {
+  const DOMSelectors = {
+    error: document.querySelector(".title").textContent,
+    back: document.querySelector(".leaderboardBackButton"),
+    leaderboardContainer: document.querySelector(".leaderboardContainer"),
+  };
 
-function raceCard(card) {
-  const startTime = new Date(card.start);
-  const endTime = new Date(card.end);
-  const cardHTML = `
+  function raceCard(card) {
+    const startTime = new Date(card.start);
+    const endTime = new Date(card.end);
+    const cardHTML = `
     <div class=raceCard>
     <h1>${card.name}</h1>
     <p>Start Time: ${startTime}</p>
@@ -15,72 +18,71 @@ function raceCard(card) {
     <p class=ID>${card.id}</p>
     </div>
     `;
-  document
-    .querySelector(".raceContainer")
-    .insertAdjacentHTML("beforeend", cardHTML);
+    document
+      .querySelector(".raceContainer")
+      .insertAdjacentHTML("beforeend", cardHTML);
 
-  const leaderboardButtons = document.querySelectorAll(".leaderboard");
-  leaderboardButtons.forEach((button) => {
-    button.addEventListener("click", () => callLeaderboard(button));
-  });
-
-  async function callLeaderboard(button) {
-    const raceID = button.parentElement.querySelector(".ID").textContent;
-    document.querySelector(".leaderboardContainer").innerHTML = "";
-    const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
-    try {
-      const leaderboardResponse = await fetch(leaderboardURL);
-      if (leaderboardResponse.status !== 200) {
-        throw new Error(leaderboardResponse.statusText);
-      }
-      const leaderboard = await leaderboardResponse.json();
-      const leaderboardData = leaderboard.body.reverse();
-      leaderboardData.forEach((data) => {
-        leaderboardCard(data);
-      });
-      document.querySelector(".leaderboardBackButton").style.display = "inline-block";
-    } catch (leaderboardError) {
-      DOMSelectors.error = "whoops";
-    }
-  }
-}
-async function callPlayer(button) {
-  const raceID = button.parentElement.querySelector(".ID").textContent;
-  const leaderboardContainer = document.querySelector(".leaderboardContainer");
-  leaderboardContainer.innerHTML = ""; // Clear existing content
-
-  const backButtonHTML = `
-    <button class="profile" id="leaderboardBackButton">
-      <img src="/public/profile.webp" alt="Back">
-    </button>
-  `;
-  leaderboardContainer.insertAdjacentHTML("beforeend", backButtonHTML);
-  const playerURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
-  try {
-    const leaderboardResponse = await fetch(playerURL);
-    if (leaderboardResponse.status !== 200) {
-      throw new Error(leaderboardResponse.statusText);
-    }
-    const leaderboardData = await leaderboardResponse.json();
-    leaderboardData.body.forEach((data) => {
-      leaderboardCard(data);
+    const leaderboardButtons = document.querySelectorAll(".leaderboard");
+    leaderboardButtons.forEach((button) => {
+      button.addEventListener("click", () => callLeaderboard(button));
     });
-    document.querySelector(".leaderboardBackButton").style.display = "inline-block";
-  } catch (leaderboardError) {
-    DOMSelectors.error = "whoops";
-  }
-}
+    //Leaderboard
+    async function callLeaderboard(button) {
+      const raceID = button.parentElement.querySelector(".ID").textContent;
+      document.querySelector(".leaderboardContainer").innerHTML = previous();
+      const leaderboardURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
+      const metadataURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/metadata`;
+      try {
+        const leaderboardResponse = await fetch(leaderboardURL, metadataURL);
+        if (leaderboardResponse.status !== 200) {
+          throw new Error(leaderboardResponse.statusText);
+        }
+        console.log(leaderboardResponse)
+        const leaderboard = await leaderboardResponse.json();
+        const leaderboardData = leaderboard.body.reverse();
+      } catch (leaderboardError) {
+        DOMSelectors.error = "whoops";
+      }
+    }
+    //Player
+    async function callPlayer(button) {
+      const raceID = button.parentElement.querySelector(".ID").textContent;
+      playerContainer.innerHTML = "";
 
-function previous() {
-  return `
+      const backButtonHTML = `
     <button class="profile" id="leaderboardBackButton">
       <img src="/public/profile.webp" alt="Back">
     </button>
   `;
-}
+      DOMSelectors.leaderboardContainer.insertAdjacentHTML(
+        "beforeend",
+        backButtonHTML
+      );
+      const playerURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
+      try {
+        const leaderboardResponse = await fetch(playerURL);
+        if (leaderboardResponse.status !== 200) {
+          throw new Error(leaderboardResponse.statusText);
+        }
+        const leaderboardData = await leaderboardResponse.json();
+        leaderboardData.body.forEach((data) => {
+          leaderboardCard(data);
+        });
+        document.querySelector(".leaderboardBackButton").style.display =
+          "inline-block";
+      } catch (leaderboardError) {
+        DOMSelectors.error = "whoops";
+      }
+    }
 
-function leaderboardCard(card) {
-  const cardHTML = `
+    function previous(button) {
+      `<button class=leaderboardBackButton><img src="public/profile.webp" alt="Back"></button>`;
+      button.addEventListener("click", empty);
+      const empty = DOMSelectors.leaderboardContainer.innerHTML= "";
+    }
+
+    function leaderboardCard(card) {
+      const cardHTML = `
     <div class="leaderboardCard">
       <h1 class=leaderboardDisplayName>${card.displayName}</h1>
       <p class=leaderboardScore>Score: ${card.score}</p>
@@ -88,11 +90,13 @@ function leaderboardCard(card) {
       <button class=profile><img src="public/profile.webp" alt="Profile"></button>
     </div>
   `;
-  const leaderboardContainer = document.querySelector(".leaderboardContainer");
-  leaderboardContainer.insertAdjacentHTML("beforeend", cardHTML);
-}
-function playerCard(card) {
-  const cardHTML = `
+      document
+        .querySelector(".leaderboardContainer")
+        .insertAdjacentHTML("beforeend", cardHTML);
+    }
+
+    function playerCard(card) {
+      const cardHTML = `
       <div class="playerCard">
         <h1>${card.displayName}</h1>
         <p>Rank: ${card.score}</p>
@@ -102,8 +106,10 @@ function playerCard(card) {
         <img src="${card.bannerURL}" alt="Banner">
       </div>
     `;
-  document
-    .querySelector(".playerContainer")
-    .insertAdjacentHTML("beforeend", cardHTML);
+      document
+        .querySelector(".playerContainer")
+        .insertAdjacentHTML("beforeend", cardHTML);
+    }
+  }
 }
-export { raceCard, leaderboardCard, playerCard, DOMSelectors };
+export { api };
