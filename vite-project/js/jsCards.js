@@ -3,7 +3,7 @@ const DOMSelectors = {
   back: document.querySelector(".leaderboardBackButton"),
   leaderboardContainer: document.querySelector(".leaderboardContainer"),
 };
-
+//Maps
 async function raceCard(card) {
   const startTime = new Date(card.start);
   const endTime = new Date(card.end);
@@ -30,6 +30,7 @@ async function raceCard(card) {
   leaderboardButtons.forEach((button) => {
     button.addEventListener("click", () => callLeaderboard(button));
   });
+
   //Leaderboard
   async function callLeaderboard(button) {
     const raceID = button.parentElement.querySelector(".ID").textContent;
@@ -45,43 +46,10 @@ async function raceCard(card) {
       leaderboardData.forEach((data) => {
         leaderboardCard(data);
       });
-      document.querySelector(".leaderboardBackButton").style.display = "inline-block";
     } catch (leaderboardError) {
       DOMSelectors.error = "whoops";
     }
   }
-}
-  //Player
-  async function callPlayer(button) {
-    const raceID = button.parentElement.querySelector(".ID").textContent;
-    playerContainer.innerHTML = "";
-
-    const backButtonHTML = `
-    <button class="profile" id="leaderboardBackButton">
-      <img src="/public/profile.webp" alt="Back">
-    </button>
-  `;
-    DOMSelectors.leaderboardContainer.insertAdjacentHTML(
-      "beforeend",
-      backButtonHTML
-    );
-    const playerURL = `https://data.ninjakiwi.com/btd6/races/${raceID}/leaderboard`;
-    try {
-      const leaderboardResponse = await fetch(playerURL);
-      if (leaderboardResponse.status !== 200) {
-        throw new Error(leaderboardResponse.statusText);
-      }
-      const leaderboardData = await leaderboardResponse.json();
-      leaderboardData.body.forEach((data) => {
-        leaderboardCard(data);
-      });
-      document.querySelector(".leaderboardBackButton").style.display =
-        "inline-block";
-    } catch (leaderboardError) {
-      DOMSelectors.error = "whoops";
-    }
-  }
-
   function leaderboardCard(card) {
     const cardHTML = `
     <div class="leaderboardCard">
@@ -94,9 +62,37 @@ async function raceCard(card) {
     document
       .querySelector(".leaderboardContainer")
       .insertAdjacentHTML("beforeend", cardHTML);
+      const playerButtons = document.querySelectorAll(".leaderboard");
+      playerButtons.forEach((button) => {
+        button.addEventListener("click", () => callPlayer(button));
+      });
   }
 
-  function playerCard(card) {
+  //Player
+  async function callPlayer(button) {
+    const playerID = button.parentElement.querySelector(".profileID").textContent;
+    playerContainer.innerHTML = "";
+    DOMSelectors.leaderboardContainer.insertAdjacentHTML("beforeend",backButtonHTML);
+    const playerURL = `https://data.ninjakiwi.com/btd6/users/${playerID}`;
+    try {
+      const playerResponse = await fetch(playerURL);
+      if (playerResponse.status !== 200) {
+        throw new Error(playerResponse.statusText);
+      }
+      const playerData = await playerResponse.json();
+      playerData.body.forEach((data) => {
+        playerCard(data);
+      });
+    } catch (leaderboardError) {
+      DOMSelectors.error = "whoops";
+    }
+  }
+
+  async function playerCard(card) {
+    const metadataURL = `https://data.ninjakiwi.com/btd6/races/${card.id}/metadata`;
+    const metadataResponse = await fetch(metadataURL);
+    const metadata = await metadataResponse.json();
+    const mapURL = metadata.body.mapURL;
     const cardHTML = `
       <div class="playerCard">
         <h1>${card.displayName}</h1>
@@ -111,4 +107,6 @@ async function raceCard(card) {
       .querySelector(".playerContainer")
       .insertAdjacentHTML("beforeend", cardHTML);
   }
+}
+
 export { DOMSelectors, raceCard };
