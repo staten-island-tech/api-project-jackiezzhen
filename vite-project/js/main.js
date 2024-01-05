@@ -1,4 +1,4 @@
-import {api} from "./jsCards.js";
+import { DOMSelectors, raceCard } from "./jsCards.js";
 /* function greet(name){
     const greetPromise= new Promise(function(resolve, reject){
         resolve(`Hello ${name}`);
