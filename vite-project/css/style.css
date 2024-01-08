@@ -14,7 +14,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   margin: 0;
-  cursor: url(http://www.rw-designer.com/cursor-extern.php?id=146672);
 }
 .title {
   display: flex;
@@ -45,18 +44,40 @@ body {
   height: 41rem;
   word-wrap: break-word;
 }
-.raceCard img {  
+.raceCard img {
   object-fit: fill;
-  width: 32rem; 
-  height: 21rem; 
+  width: 32rem;
+  height: 21rem;
   max-height: none;
 }
-.mapImg{
-  width:100%;
-  height:10%;
+.mapImg {
+  width: 100%;
+  height: 10%;
 }
+button.backButton {
+  position: fixed;
+  z-index: 2;
+  color: black;
+  top: 3vh;
+  left: 3vh;
+  width: 5vh;
+  height: 5vh;
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+img.backButtonImg {
+  object-fit: cover;
+  place-items: center;
+  border-radius: 1vh;
+  border: solid white 0.1rem;
+  width: 5vh;
+  height: 5vh;
+}
+
+
 .leaderboardContainer {
-  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
@@ -64,48 +85,86 @@ body {
   z-index: 1;
   position: absolute;
   top: 0;
-  background: rgba(36, 36, 36, 0.9);
+  background: rgba(36, 36, 36, 1);
+  padding-top: 5%;
+  display: none;
 }
 .leaderboardCard {
   display: flex;
-  justify-content: space-around;
-  padding: 1vh;
-  background: #242424;
   border: solid white 0.1rem;
-  height: 50%;
-  place-items: center;
   word-wrap: break-word;
-  width: 60vw;
-  height: 2vw;
-  top: 20%;
+  height: 10vh;
+  width: 90vh;
   object-fit: contain;
+  position: relative;
+  text-shadow: 1px 1px 1px black, -1px 1px 1px black, 1px -1px 1px black,
+    -1px -1px 1px black;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
+
 .leaderboardDisplayName {
-  justify-content: right;
+  display: block;
+  margin-left: 13%;
+  font-size: 3vh;
+  place-items: center;
 }
+
+.leaderboardScore {
+  display: block;
+  margin-left: auto;
+  margin-right: 24vh;
+  font-size: 3vh;
+  place-items: center;
+}
+
+img.avatar {
+  position: absolute;
+  max-height: 100%;
+  object-fit: contain;
+  z-index: -1;
+  border: white 1px;
+  background-color: white;
+}
+
+img.banner {
+  position: absolute;
+  max-height: 100%;
+  object-fit: contain;
+  right: 0;
+  z-index: -1;
+}
+button.profile {
+  cursor: pointer;
+  color: blueviolet;
+  padding: 0;
+  border: none;
+  background: none;
+  place-items: center end;
+  margin-right: 1vh; /* Adjust this value as needed */
+}
+.profile img {
+  place-items: end;
+  border: none;
+  width: 6vh;
+  object-fit: contain;
+  margin-left: auto;
+}
+
 .ID {
   display: none;
 }
+
 .profileID {
-  display:none;
+  display: none;
 }
-.profile img {
-  background: #242424;
-  border: solid #242424 4px;
-  width: 10%;
-  object-fit: contain;
-  justify-content: end;
-}
+
 .profile {
   border: 0;
   background-color: transparent;
 }
-:active.profile img {
-  width: 1vw;
-  height: auto;
-}
 
-.playerContainer{
+.playerContainer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

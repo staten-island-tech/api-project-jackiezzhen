@@ -1,8 +1,11 @@
 const DOMSelectors = {
   error: document.querySelector(".title").textContent,
-  back: document.querySelector(".leaderboardBackButton"),
+  raceContainer: document.querySelector(".raceContainer"),
   leaderboardContainer: document.querySelector(".leaderboardContainer"),
+  playerContainer: document.querySelector(".playerContainer"),
 };
+//Back Button
+function leaderboardBackButton() {}
 //Maps
 async function raceCard(card) {
   const startTime = new Date(card.start);
@@ -28,7 +31,22 @@ async function raceCard(card) {
 
   const leaderboardButtons = document.querySelectorAll(".leaderboard");
   leaderboardButtons.forEach((button) => {
-    button.addEventListener("click", () => callLeaderboard(button));
+    button.addEventListener("click", () => {
+      callLeaderboard(button);
+      DOMSelectors.leaderboardContainer.style.display = "flex";
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      const backButtonHTML = `<button class="backButton"><img class=backButtonImg src="public/back-arrow.png" alt="Back"></button>`;
+      document
+        .querySelector(".leaderboardContainer")
+        .insertAdjacentHTML("afterbegin", backButtonHTML);
+      const backButton = document.querySelector(".backButton");
+      backButton.addEventListener("click", () => {
+        location.reload();
+      });
+    });
   });
 
   //Leaderboard
@@ -50,29 +68,45 @@ async function raceCard(card) {
       DOMSelectors.error = "whoops";
     }
   }
-  function leaderboardCard(card) {
-    const cardHTML = `
+  async function leaderboardCard(card) {
+    const profileURL = card.profile;
+    try {
+      const profileResponse = await fetch(profileURL);
+      if (profileResponse.status !== 200) {
+        throw new Error(profileResponse.statusText);
+      }
+      const profileData = await profileResponse.json();
+      const avatarURL = profileData.body.avatarURL;
+      const bannerURL = profileData.body.bannerURL;
+      const cardHTML = `
     <div class="leaderboardCard">
-      <h1 class=leaderboardDisplayName>${card.displayName}</h1>
+      <p class=leaderboardDisplayName>${card.displayName}</p>
       <p class=leaderboardScore>Score: ${card.score}</p>
-      <p class=profileID>${card.profile}<p>
-      <button class=profile><img src="public/profile.webp" alt="Profile"></button>
+      <img class= avatar src="${avatarURL}" alt="Avatar">
+      <img class= banner src="${bannerURL}" alt="Banner">
+      <p class=profileID>${card.profile}</p>
+      <button class="profile"><img src="public/profile.webp" alt="Profile"></button>
     </div>
+    
   `;
-    document
-      .querySelector(".leaderboardContainer")
-      .insertAdjacentHTML("beforeend", cardHTML);
+      document
+        .querySelector(".leaderboardContainer")
+        .insertAdjacentHTML("beforeend", cardHTML);
       const playerButtons = document.querySelectorAll(".leaderboard");
       playerButtons.forEach((button) => {
         button.addEventListener("click", () => callPlayer(button));
       });
+    } catch (leaderboardError) {
+      DOMSelectors.error = "whoops";
+    }
   }
 
   //Player
   async function callPlayer(button) {
-    const playerID = button.parentElement.querySelector(".profileID").textContent;
+    const playerID =
+      button.parentElement.querySelector(".profileID").textContent;
     playerContainer.innerHTML = "";
-    DOMSelectors.leaderboardContainer.insertAdjacentHTML("beforeend",backButtonHTML);
+
     const playerURL = `https://data.ninjakiwi.com/btd6/users/${playerID}`;
     try {
       const playerResponse = await fetch(playerURL);
