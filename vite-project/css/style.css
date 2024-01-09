@@ -14,6 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   margin: 0;
+  
 }
 .title {
   display: flex;
@@ -23,8 +24,8 @@ body {
 .allContainers {
   width: 100%;
   height: 100%;
+  top:0;
 }
-
 .raceContainer {
   display: flex;
   flex-wrap: wrap;
@@ -54,6 +55,10 @@ body {
   width: 100%;
   height: 10%;
 }
+button.leaderboard{
+  background-color: white;
+  color: black;
+}
 button.backButton {
   position: fixed;
   z-index: 2;
@@ -76,7 +81,6 @@ img.backButtonImg {
   height: 5vh;
 }
 
-
 .leaderboardContainer {
   flex-wrap: wrap;
   flex-direction: row;
@@ -85,8 +89,10 @@ img.backButtonImg {
   z-index: 1;
   position: absolute;
   top: 0;
-  background: rgba(36, 36, 36, 1);
+  background: url(../public/background.jpeg) no-repeat fixed;
+  background-size: cover;
   padding-top: 5%;
+  padding-bottom: 3%;
   display: none;
 }
 .leaderboardCard {
@@ -136,12 +142,12 @@ img.banner {
 }
 button.profile {
   cursor: pointer;
-  color: blueviolet;
+  color:black;
   padding: 0;
   border: none;
   background: none;
   place-items: center end;
-  margin-right: 1vh; /* Adjust this value as needed */
+  margin-right: 1vh;
 }
 .profile img {
   place-items: end;
@@ -165,26 +171,76 @@ button.profile {
 }
 
 .playerContainer {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  top: 0;
+  display: block;
   justify-content: center;
-  gap: 1vw;
-  margin: 2vw;
-  z-index: 1;
-  position: absolute;
-  background: rgba(36, 36, 36, 0.9);
-}
-.playerCard {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  top: 30px;
-  gap: 10vh;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
+  text-shadow: 1px 1px 1px black, -1px 1px 1px black, 1px -1px 1px black,
+    -1px -1px 1px black;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  align-items: center;
+  background-size: cover;
+  display: none;
+  position: fixed;
+  background-color: rgba(32, 32, 32, 0.5);
 }
 
+.playerCard {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 60%;
+  z-index: inherit;
+  border-radius: 1rem;
+  border: solid #0180CA 0.5rem;
+  gap: 10vh;
+  background: url(../public/background.jpeg) no-repeat fixed;
+  position: relative;
+}
+
+.playerCard img.avatar {
+  width: 10rem;
+  background: #0180CA;
+  border: solid #0180CA 0.5rem;
+  border-radius: 0.1rem;
+  z-index: 5;
+}
+.playerCard img.banner{
+  width: 95%;
+  z-index: 4;
+  border: solid #0180CA 0.5rem;
+}
+
+.playerText {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 60%;
+  font-size: 1.19rem;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 7.7rem;
+}
+
+.playerInfo {
+  display: flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  height: 70%;
+  margin-top: -4rem;
+}
+.playerInfo p{
+  margin: 0;
+}
 button {
   cursor: pointer;
-  color: blueviolet;
+  color: black;
+  background-color: white;
 }
